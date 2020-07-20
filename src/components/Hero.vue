@@ -1,21 +1,35 @@
 <template>
   <div class="hero">
-    <div class="hero-block" 
-      v-for="(bannerArticle, index) in bannerArticles" 
-      :key="index" 
-      :class="slide == index+1 ? 'is-active' : ''">
-      <section class="hero-image">
-        <div class="wrapper">
-          <div class="hero-content">
-            <h2 class="hero-heading">{{bannerArticle.title}}</h2>
-            <time class="hero-time" v-bind:dateTime="bannerArticle.date">{{bannerArticle.date}}</time>
+    <ApolloQuery :query="query" :variables="{limit: maxSlides}">
+      <template slot-scope="{result: {loading, error, data}}">
+        <div v-if="loading">Loading...</div>
+        <div v-if="error">something goes wrong</div>
+        <div class="hero-inner" v-if="data">
+          <div class="hero-block" 
+            v-for="(bannerArticle, index) in data.posts" 
+            :key="index" 
+            :class="slide == index+1 ? 'is-active' : ''">
+            <section 
+              class="hero-image"
+              :style="`backgroundImage: url(${dummyImage})`">
+              <div class="wrapper">
+                <div class="hero-content">
+                  <div class="hero-content-inner">
+                    <h2 class="hero-heading">{{bannerArticle.title}}</h2>
+                    <time class="hero-time" v-bind:dateTime="bannerArticle.date">{{bannerArticle.createdAt}}</time>
+                  </div>
+                </div>
+              </div>
+            </section>
           </div>
         </div>
-      </section>
-    </div>
+        <div class="hero-inner" v-else>No Post</div>
+      </template>
+    </ApolloQuery>
+
     <div class="hero-dots">
       <span class="hero-dot" 
-        v-for="(n, index) in totalSlides" 
+        v-for="(n, index) in maxSlides" 
         :key="index"
         :class="slide == index+1 ? 'is-active' : ''"></span>
     </div>
@@ -27,41 +41,23 @@
 </template>
 
 <script>
+import dummyImage from '@/assets/mv.jpg'
+import { LIMIT_POSTS } from "@/queries.js";
+
 export default {
   name: 'Hero',
   data() {
     return {
       slide: 1,
-      totalSlides: null,
-      bannerArticles: [
-        {
-          id: '1',
-          image: 'image1',
-          title: 'サンプルテキストサンプル1',
-          date: '2019.06.19'
-        },
-        {
-          id: '2',
-          image: 'image2',
-          title: 'サンプルテキストサンプル 2',
-          date: '2019.07.19' 
-        },
-        {
-          id: '3',
-          image: 'image3',
-          title: 'サンプルテキストサンプル 3',
-          date: '2019.08.19'
-        }
-      ],
+      dummyImage,
+      query: LIMIT_POSTS,
+      maxSlides: 3,
     }
-  },
-  beforeMount() {
-    this.totalSlides = this.bannerArticles.length
   },
   methods: {
     handlePrev() {
       if(this.slide <= 1) {
-        this.slide == this.totalSlides;
+        this.slide = this.maxSlides;
         console.log(`${this.slide} prev`)
       } else {
         this.slide -= 1
@@ -69,8 +65,8 @@ export default {
       console.log(`${this.slide} prev`)
     },
     handleNext() {
-      if (this.slide >= this.totalSlides ) {
-        this.slide == 1
+      if (this.slide >= this.maxSlides ) {
+        this.slide = 1
         
         console.log('here')
       } else {
@@ -111,17 +107,27 @@ export default {
   align-items: flex-end
   flex-shrink: 0
 
+.hero-content-inner
+  width: 560px
+  text-align: right
+
 .hero-heading
   font-size: 60px
   color: #fff
   background-color: #000
-  width: 560px
+  box-decoration-break: clone
+  box-shadow: 0.50em 0 0 #000,-0.50em 0 0 #000
+  display: inline
+  padding: 8px 0
+  line-height: 1.56
+  word-break: break-all
 
 .hero-time
   font-size: 28px
   font-family: 'Montserrat', sans-serif
   letter-spacing: 0.2em
   margin-top: 24px
+  display: block
 
 .hero-dots
   position: absolute

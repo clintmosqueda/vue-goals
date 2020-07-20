@@ -1,15 +1,21 @@
 <template>
   <article class="article">
-    <div class="article-image"></div>
+    <div class="article-image" :style="`backgroundImage: url(${dummyImage})`"></div>
     <time class="article-date">{{date}}</time>
     <h3 class="article-title">{{title}}</h3>
   </article>
 </template>
 
 <script>
+import dummyImage from '@/assets/dummy-image.jpg'
 export default {
   name: 'Article',
   props: ['image', 'date', 'title'],
+  data() {
+    return {
+      dummyImage 
+    }
+  },
 }
 </script>
 

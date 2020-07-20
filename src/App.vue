@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :style="[showLogin ? {'overflow' : 'hidden', 'height' : '100vh'} : '']">
     <Header :showLogin="showLogin" @showLogin="handleLogin"/>
     <Form :isModalOpen="showLogin"/>
     <router-view/>

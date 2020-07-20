@@ -1,9 +1,11 @@
 <template>
-  <div class="wrapper">
-    <header class="header">
-      <router-link to="/"><img src="../assets/logo.png" alt="logo"></router-link>
-      <button @click="$emit('showLogin')" class="header-button">{{showLogin ? 'CLOSE' : 'LOGIN'}}</button>
-    </header>
+  <div class="header">
+    <div class="wrapper">
+      <header class="header-block">
+        <router-link to="/"><img src="../assets/logo.png" alt="logo"></router-link>
+        <button @click="$emit('showLogin')" class="header-button">{{showLogin ? 'CLOSE' : 'LOGIN'}}</button>
+      </header>
+    </div>
   </div>
 </template>
 
@@ -18,6 +20,10 @@ export default {
 
 <style lang="sass">
 .header
+  position: relative
+  z-index: 10
+
+.header-block
   background-color: #fff
   height: 100px
   display: flex

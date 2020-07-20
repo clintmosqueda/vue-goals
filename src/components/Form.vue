@@ -12,8 +12,8 @@
             <label class="form-label" for="">Password</label>
             <input class="form-input" type="password">
           </div>
-          <button>LOGIN</button>
-          <p>No account yet? <span>REGISTER HERE</span></p>
+          <Button text="LOGIN"/>
+          <p class="form-copy">No account yet? <span @click="handleRegister">REGISTER HERE</span></p>
         </div>
         <div class="form-register" v-else>
           <h2 class="form-title">REGISTER</h2>
@@ -29,8 +29,8 @@
             <label class="form-label" for="">Confirm Password</label>
             <input class="form-input" type="password">
           </div>
-          <button>REGISTER</button>
-          <p>Already have an account? <span>LOGIN HERE</span></p>
+          <Button text="REGISTER"/>
+          <p class="form-copy">Already have an account? <span @click="handleRegister">LOGIN HERE</span></p>
         </div>
       </div>
     </div>
@@ -38,12 +38,22 @@
 </template>
 
 <script>
+import Button from '@/components/Button'
 export default {
   name: 'Form',
   props: ['isModalOpen'],
+  components: {
+    Button
+  },
   data() {
     return {
       isLoginOpen: true,
+    }
+  },
+  methods: {
+    handleRegister() {
+      this.isLoginOpen = !this.isLoginOpen
+      
     }
   },
 }
@@ -54,11 +64,11 @@ export default {
   position: relative
 
 .form-block
-  position: absolute
+  position: fixed
   width: 100%
   top: 0
   left: 0
-  height: 666px
+  height: 100vh
   background-color: #fff
   display: flex
   align-items: center
