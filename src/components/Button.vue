@@ -1,11 +1,20 @@
 <template>
-  <button class="button">{{text}}</button>
+  <button :type="type" class="button">{{text}}</button>
 </template>
 
 <script>
 export default {
   name: 'Button',
-  props: ['text']
+  props: {
+    text: {
+      type: String,
+      default: "Text Here"
+    },
+    type: {
+      type: String,
+      default: "button"
+    }
+  }
 }
 </script>
 

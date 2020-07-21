@@ -1,6 +1,9 @@
 <template>
   <section class="archive">
-    <h2 class="archive-heading">NEWS</h2>
+    <div class="archive-header">
+      <h2 class="archive-heading">NEWS</h2>
+      <router-link class="archive-create" to="/news/new">Create New Post</router-link>
+    </div>
     <ApolloQuery :query="query">
       <template slot-scope="{result: { loading, error, data } }">
         <div v-if="loading">Loading...</div>
@@ -30,9 +33,9 @@
 
 <script>
 
+import { GET_POSTS } from "@/queries.js";
 import Article from '@/components/Article'
 import Button from '@/components/Button' 
-import { GET_POSTS } from "@/queries.js";
 
 export default {
   name: 'Archive',
@@ -53,12 +56,24 @@ export default {
 .archive
   padding: 98px 0 150px
 
+.archive-header
+  display: flex
+  align-items: center
+  justify-content: space-between
+  margin-bottom: 65px
+
 .archive-heading
   font-size: 50px
   font-weight: bold
   font-family: 'Montserrat', sans-serif
-  margin-bottom: 65px
   letter-spacing: 0.09em
+
+.archive-create
+  font-size: 20px
+  font-weight: bold
+  font-family: 'Montserrat', sans-serif
+  letter-spacing: 0.09em
+  color: #000
 
 .archive-content
   display: flex

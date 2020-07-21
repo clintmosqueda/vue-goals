@@ -16,14 +16,13 @@
                 <div class="hero-content">
                   <div class="hero-content-inner">
                     <h2 class="hero-heading">{{bannerArticle.title}}</h2>
-                    <time class="hero-time" v-bind:dateTime="bannerArticle.date">{{bannerArticle.createdAt}}</time>
+                    <time class="hero-time" v-bind:dateTime="bannerArticle.createdAt">{{bannerArticle.createdAt}}</time>
                   </div>
                 </div>
               </div>
             </section>
           </div>
         </div>
-        <div class="hero-inner" v-else>No Post</div>
       </template>
     </ApolloQuery>
 
