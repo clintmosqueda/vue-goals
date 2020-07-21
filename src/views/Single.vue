@@ -29,7 +29,7 @@
                 <Comments :comments="data.post.comments"/>
               </template>
               <ApolloMutation
-                :mutation="mutate"
+                :mutation="addCommentMutation"
                 :variables="{postId: id, content: contents}"
                 :update="handleComment"
               >
@@ -72,7 +72,7 @@ export default {
     return {
       dummyImage,
       query: GET_POST_BY_ID,
-      mutate: ADD_COMMENT,
+      addCommentMutation: ADD_COMMENT,
       id: null,
       contents: ''
     }

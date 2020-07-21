@@ -57,3 +57,12 @@ export const ADD_COMMENT = gql`
   }
   ${COMMENT_INFO}
 `;
+
+export const ADD_POST = gql`
+  mutation addPost($title: String!, $content: String ) {
+    addPost(post: {title: $title, content: $content}) {
+      title
+      content
+    }
+  }
+`;

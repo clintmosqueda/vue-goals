@@ -3,7 +3,7 @@
     <div class="wrapper">
       <div class="breadcrumbs-wrap">
         <ul class="breadcrumbs-list">
-          <router-link class="breadcrumbs-item" tag="li" to="/" exact>Home</router-link>
+          <router-link class="breadcrumbs-item" tag="li" to="/" exact>HOME</router-link>
           <router-link class="breadcrumbs-item" tag="li" active-class="is-active" to="/">{{title}}</router-link>
         </ul>
       </div>
@@ -34,7 +34,6 @@ export default {
   letter-spacing: 0.09em
   position: relative
   margin-right: 36px
-  text-transform: uppercase
   cursor: pointer
 
   &.is-active
