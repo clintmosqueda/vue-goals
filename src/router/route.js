@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '@/views/Home'
 import Single from '@/views/Single'
 import Create from '@/views/Create'
+import Sample from '@/views/Sample'
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,11 @@ const routes = [
     path: '/news/:id',
     name: 'Single',
     component: Single
+  },
+  {
+    path: '/sample',
+    name: 'Sample',
+    component: Sample
   },
 ]
 

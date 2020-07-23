@@ -1,6 +1,6 @@
 <template>
   <section class="comments">
-    <article class="comments-content" v-for="comment in comments" :key="comment.id"> 
+    <article class="comments-content" v-for="comment in comments.slice().reverse()" :key="comment.id"> 
       <p class="comments-text">{{comment.content}}</p>
       <time class="comments-date">{{comment.createdAt}}</time>
     </article>

@@ -57,21 +57,16 @@ export default {
     handlePrev() {
       if(this.slide <= 1) {
         this.slide = this.maxSlides;
-        console.log(`${this.slide} prev`)
       } else {
         this.slide -= 1
       }
-      console.log(`${this.slide} prev`)
     },
     handleNext() {
       if (this.slide >= this.maxSlides ) {
         this.slide = 1
-        
-        console.log('here')
       } else {
         this.slide ++
       }
-      console.log(`${this.slide} next`)
     }
   },
 }

@@ -12,8 +12,10 @@ const POST_INFO = gql`
 
 const COMMENT_INFO = gql`
   fragment CommmentInfo on Comment {
+    id
     postId
     content
+    createdAt
   }
 `;
 
@@ -32,7 +34,6 @@ export const GET_POST_BY_ID = gql`
       ...PostInfo
       comments {
         ...CommmentInfo
-        createdAt
       }
     }
   }

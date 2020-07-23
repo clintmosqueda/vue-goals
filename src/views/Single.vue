@@ -1,7 +1,7 @@
 <template>
   <div class="single">
     <ApolloQuery 
-      :query="query" 
+      :query="getPostQuery" 
       :variables="{id: id}"
       >
       <template slot-scope="{result: { loading, error, data}}">
@@ -28,38 +28,41 @@
               <template v-if="data.post.comments.length">
                 <Comments :comments="data.post.comments"/>
               </template>
-              <ApolloMutation
-                :mutation="addCommentMutation"
-                :variables="{postId: id, content: contents}"
-                :update="handleComment"
-              >
-                <template slot-scope="{ mutate, loading, error }">
-                  <form class="single-form" @submit.prevent="mutate">
-                    <textarea class="single-form-textarea" placeholder="Write comment" v-model="contents"></textarea>
-                    <Button class="single-button" type="submit" text="Submit"/>
-                    <span v-if="loading">posting...</span>
-                    <span v-if="error">something went wrong</span>
-                  </form>
-                </template>
-              </ApolloMutation>
             </div>
           </div>
         </template>
       </template>
     </ApolloQuery>
+    <div class="wrapper">
+      <ApolloMutation
+        :mutation="addCommentMutation"
+        :variables="{postId: id, content: contents}"
+        :update="updateCacheComment"
+        @done="onComment"
+      >
+        <template slot-scope="{ mutate, loading, error }">
+          <form class="single-form" @submit.prevent="mutate">
+            <textarea class="single-form-textarea" placeholder="Write comment" v-model="contents"></textarea>
+            <Button class="single-button" type="submit" text="Submit"/>
+            <span v-if="loading">posting... kajsdhkajdhkajhdkajhdkajhdkajhdkajshd</span>
+            <span v-if="error">something went wrong</span>
+          </form>
+        </template>
+      </ApolloMutation>
+    </div>
   </div>
 </template>
 
 <script>
-import { 
-  GET_POST_BY_ID,
-  ADD_COMMENT } from "@/queries.js";
+
+import { gql } from "apollo-boost"
+
+import { GET_POST_BY_ID, ADD_COMMENT } from "@/queries.js";
 
 import Comments from '@/components/Comments'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import Button from '@/components/Button'
 import dummyImage from '@/assets/mv.jpg'
-
 
 export default {
   name: 'Single',
@@ -71,7 +74,7 @@ export default {
   data() {
     return {
       dummyImage,
-      query: GET_POST_BY_ID,
+      getPostQuery: GET_POST_BY_ID,
       addCommentMutation: ADD_COMMENT,
       id: null,
       contents: ''
@@ -86,8 +89,17 @@ export default {
     this.id = Number(this.$route.params.id)
   },
   methods: {
-    handleComment() {
+    onComment() {
       this.contents = '';
+    },
+    updateCacheComment(cache, { data: { addComment } }) {
+      const { post } = cache.readQuery({ query: GET_POST_BY_ID, variables: {id: this.id} })
+      cache.writeQuery({
+        query: GET_POST_BY_ID,
+        data: {
+          post: post.comments.unshift(addComment)
+        }
+      })
     }
   },
 }
@@ -151,7 +163,6 @@ export default {
     margin-bottom: 43px
 
 .single-comment 
-  margin-bottom: 139px
   border-top: 1px solid #707070
   padding: 59px 0 10px
 
@@ -164,6 +175,7 @@ export default {
   letter-spacing: 0.1em
 
 .single-form
+  margin-bottom: 139px
 
 .single-form-textarea
   display: block
